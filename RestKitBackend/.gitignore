@@ -1,0 +1,10 @@
+.bundle
+.DS_Store
+log/*
+tmp/**/*
+config/database.yml
+db/*.sqlite3
+public/uploads/*
+gems/*
+!gems/cache
+!gems/bundler
