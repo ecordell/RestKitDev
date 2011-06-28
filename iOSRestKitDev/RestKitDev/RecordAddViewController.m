@@ -70,8 +70,8 @@
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
 	// Post notification telling view controllers to reload.
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:[objects lastObject]];
-	
-	[self.navigationController popViewControllerAnimated:YES];
+	TTOpenURL(@"tt://records");
+	//[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
