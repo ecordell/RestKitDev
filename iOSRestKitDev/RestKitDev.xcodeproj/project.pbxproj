@@ -39,6 +39,8 @@
 		20250EE613B8F2E7006F208B /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20250EE313B8F2E7006F208B /* libRestKitXMLParserLibxml.a */; };
 		2025113B13BA189E006F208B /* RecordsListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2025113A13BA189E006F208B /* RecordsListTableViewController.m */; };
 		2025120113BA1DB1006F208B /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 2025120013BA1DB1006F208B /* Record.m */; };
+		202514B513BA3851006F208B /* RecordAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202514B313BA3850006F208B /* RecordAddViewController.m */; };
+		202514B613BA3851006F208B /* RecordAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 202514B413BA3851006F208B /* RecordAddViewController.xib */; };
 		3201088596B4756681693705 /* libThree20UICommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3201088596B4756681693704 /* libThree20UICommon.a */; };
 		320A2827FEC940B25BC42C65 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320A2827FEC940B25BC42C64 /* libThree20Core.a */; };
 		320A5A189C235877202780D5 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320A5A189C235877202780D4 /* libThree20Network.a */; };
@@ -326,6 +328,9 @@
 		2025113A13BA189E006F208B /* RecordsListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordsListTableViewController.m; sourceTree = "<group>"; };
 		202511FF13BA1DB1006F208B /* Record.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Record.h; sourceTree = "<group>"; };
 		2025120013BA1DB1006F208B /* Record.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Record.m; sourceTree = "<group>"; };
+		202514B213BA3850006F208B /* RecordAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordAddViewController.h; sourceTree = "<group>"; };
+		202514B313BA3850006F208B /* RecordAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordAddViewController.m; sourceTree = "<group>"; };
+		202514B413BA3851006F208B /* RecordAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecordAddViewController.xib; sourceTree = "<group>"; };
 		3201088596B4756681693700 /* Three20UICommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20UICommon.xcodeproj; path = three20/src/Three20UICommon/Three20UICommon.xcodeproj; sourceTree = SOURCE_ROOT; };
 		320A2827FEC940B25BC42C60 /* Three20Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Core.xcodeproj; path = three20/src/Three20Core/Three20Core.xcodeproj; sourceTree = SOURCE_ROOT; };
 		320A5A189C235877202780D0 /* Three20Network.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Network.xcodeproj; path = three20/src/Three20Network/Three20Network.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -449,6 +454,9 @@
 				20250DC313B8EC26006F208B /* iPad */,
 				20250DAE13B8EC26006F208B /* Supporting Files */,
 				2025113913BA189E006F208B /* RecordsListTableViewController.h */,
+				202514B213BA3850006F208B /* RecordAddViewController.h */,
+				202514B313BA3850006F208B /* RecordAddViewController.m */,
+				202514B413BA3851006F208B /* RecordAddViewController.xib */,
 				2025113A13BA189E006F208B /* RecordsListTableViewController.m */,
 			);
 			path = RestKitDev;
@@ -869,6 +877,7 @@
 			files = (
 				320B6C86F11D9990244A9731 /* Three20.bundle in Resources */,
 				20250DB213B8EC26006F208B /* InfoPlist.strings in Resources */,
+				202514B613BA3851006F208B /* RecordAddViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -911,6 +920,7 @@
 				20250DC613B8EC26006F208B /* RestKitDevAppDelegate_iPad.m in Sources */,
 				2025113B13BA189E006F208B /* RecordsListTableViewController.m in Sources */,
 				2025120113BA1DB1006F208B /* Record.m in Sources */,
+				202514B513BA3851006F208B /* RecordAddViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

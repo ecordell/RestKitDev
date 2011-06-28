@@ -8,6 +8,7 @@
 
 #import "RestKitDevAppDelegate.h"
 #import "RecordsListTableViewController.h"
+#import "RecordAddViewController.h"
 
 @implementation RestKitDevAppDelegate
 
@@ -47,6 +48,7 @@
     
     TTURLMap* map = navigator.URLMap;
     [map from:@"tt://records" toViewController:[RecordsListTableViewController class]];
+    [map from:@"tt://records/add" toViewController:[RecordAddViewController class]];
     
     TTOpenURL(@"tt://records");
     
@@ -118,13 +120,6 @@
 - (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)URL {
     [[TTNavigator navigator] openURLAction:[TTURLAction actionWithURLPath:URL.absoluteString]];
     return YES;
-}
-
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-    /*
-     Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
-     */
-    [super applicationDidReceiveMemoryWarning:application];
 }
 
 #pragma mark - Application's Documents directory
