@@ -16,9 +16,7 @@
 		20250DB813B8EC26006F208B /* RestKitDevAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20250DB713B8EC26006F208B /* RestKitDevAppDelegate.m */; };
 		20250DBB13B8EC26006F208B /* RestKitDev.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20250DB913B8EC26006F208B /* RestKitDev.xcdatamodeld */; };
 		20250DBF13B8EC26006F208B /* RestKitDevAppDelegate_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 20250DBE13B8EC26006F208B /* RestKitDevAppDelegate_iPhone.m */; };
-		20250DC213B8EC26006F208B /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20250DC013B8EC26006F208B /* MainWindow_iPhone.xib */; };
 		20250DC613B8EC26006F208B /* RestKitDevAppDelegate_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 20250DC513B8EC26006F208B /* RestKitDevAppDelegate_iPad.m */; };
-		20250DC913B8EC26006F208B /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20250DC713B8EC26006F208B /* MainWindow_iPad.xib */; };
 		20250DD013B8EC26006F208B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20250DA513B8EC26006F208B /* UIKit.framework */; };
 		20250DD113B8EC26006F208B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20250DA713B8EC26006F208B /* Foundation.framework */; };
 		20250DD213B8EC26006F208B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20250DA913B8EC26006F208B /* CoreGraphics.framework */; };
@@ -39,6 +37,8 @@
 		20250EE413B8F2E7006F208B /* libRestKitJSONParserSBJSON.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20250EE113B8F2E7006F208B /* libRestKitJSONParserSBJSON.a */; };
 		20250EE513B8F2E7006F208B /* libRestKitJSONParserYAJL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20250EE213B8F2E7006F208B /* libRestKitJSONParserYAJL.a */; };
 		20250EE613B8F2E7006F208B /* libRestKitXMLParserLibxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20250EE313B8F2E7006F208B /* libRestKitXMLParserLibxml.a */; };
+		2025113B13BA189E006F208B /* RecordsListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2025113A13BA189E006F208B /* RecordsListTableViewController.m */; };
+		2025120113BA1DB1006F208B /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 2025120013BA1DB1006F208B /* Record.m */; };
 		3201088596B4756681693705 /* libThree20UICommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3201088596B4756681693704 /* libThree20UICommon.a */; };
 		320A2827FEC940B25BC42C65 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320A2827FEC940B25BC42C64 /* libThree20Core.a */; };
 		320A5A189C235877202780D5 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320A5A189C235877202780D4 /* libThree20Network.a */; };
@@ -299,10 +299,8 @@
 		20250DBA13B8EC26006F208B /* RestKitDev.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RestKitDev.xcdatamodel; sourceTree = "<group>"; };
 		20250DBD13B8EC26006F208B /* RestKitDevAppDelegate_iPhone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestKitDevAppDelegate_iPhone.h; path = iPhone/RestKitDevAppDelegate_iPhone.h; sourceTree = "<group>"; };
 		20250DBE13B8EC26006F208B /* RestKitDevAppDelegate_iPhone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RestKitDevAppDelegate_iPhone.m; path = iPhone/RestKitDevAppDelegate_iPhone.m; sourceTree = "<group>"; };
-		20250DC113B8EC26006F208B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPhone/en.lproj/MainWindow_iPhone.xib; sourceTree = "<group>"; };
 		20250DC413B8EC26006F208B /* RestKitDevAppDelegate_iPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RestKitDevAppDelegate_iPad.h; path = iPad/RestKitDevAppDelegate_iPad.h; sourceTree = "<group>"; };
 		20250DC513B8EC26006F208B /* RestKitDevAppDelegate_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RestKitDevAppDelegate_iPad.m; path = iPad/RestKitDevAppDelegate_iPad.m; sourceTree = "<group>"; };
-		20250DC813B8EC26006F208B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
 		20250DCF13B8EC26006F208B /* RestKitDevTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestKitDevTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		20250DD813B8EC26006F208B /* RestKitDevTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RestKitDevTests-Info.plist"; sourceTree = "<group>"; };
 		20250DDA13B8EC26006F208B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -324,6 +322,10 @@
 		20250EE113B8F2E7006F208B /* libRestKitJSONParserSBJSON.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRestKitJSONParserSBJSON.a; sourceTree = SOURCE_ROOT; };
 		20250EE213B8F2E7006F208B /* libRestKitJSONParserYAJL.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRestKitJSONParserYAJL.a; sourceTree = SOURCE_ROOT; };
 		20250EE313B8F2E7006F208B /* libRestKitXMLParserLibxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRestKitXMLParserLibxml.a; sourceTree = SOURCE_ROOT; };
+		2025113913BA189E006F208B /* RecordsListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordsListTableViewController.h; sourceTree = "<group>"; };
+		2025113A13BA189E006F208B /* RecordsListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordsListTableViewController.m; sourceTree = "<group>"; };
+		202511FF13BA1DB1006F208B /* Record.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Record.h; sourceTree = "<group>"; };
+		2025120013BA1DB1006F208B /* Record.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Record.m; sourceTree = "<group>"; };
 		3201088596B4756681693700 /* Three20UICommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20UICommon.xcodeproj; path = three20/src/Three20UICommon/Three20UICommon.xcodeproj; sourceTree = SOURCE_ROOT; };
 		320A2827FEC940B25BC42C60 /* Three20Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Core.xcodeproj; path = three20/src/Three20Core/Three20Core.xcodeproj; sourceTree = SOURCE_ROOT; };
 		320A5A189C235877202780D0 /* Three20Network.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Network.xcodeproj; path = three20/src/Three20Network/Three20Network.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -440,10 +442,14 @@
 			children = (
 				20250DB613B8EC26006F208B /* RestKitDevAppDelegate.h */,
 				20250DB713B8EC26006F208B /* RestKitDevAppDelegate.m */,
+				202511FF13BA1DB1006F208B /* Record.h */,
+				2025120013BA1DB1006F208B /* Record.m */,
 				20250DB913B8EC26006F208B /* RestKitDev.xcdatamodeld */,
 				20250DBC13B8EC26006F208B /* iPhone */,
 				20250DC313B8EC26006F208B /* iPad */,
 				20250DAE13B8EC26006F208B /* Supporting Files */,
+				2025113913BA189E006F208B /* RecordsListTableViewController.h */,
+				2025113A13BA189E006F208B /* RecordsListTableViewController.m */,
 			);
 			path = RestKitDev;
 			sourceTree = "<group>";
@@ -465,7 +471,6 @@
 			children = (
 				20250DBD13B8EC26006F208B /* RestKitDevAppDelegate_iPhone.h */,
 				20250DBE13B8EC26006F208B /* RestKitDevAppDelegate_iPhone.m */,
-				20250DC013B8EC26006F208B /* MainWindow_iPhone.xib */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -475,7 +480,6 @@
 			children = (
 				20250DC413B8EC26006F208B /* RestKitDevAppDelegate_iPad.h */,
 				20250DC513B8EC26006F208B /* RestKitDevAppDelegate_iPad.m */,
-				20250DC713B8EC26006F208B /* MainWindow_iPad.xib */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -865,8 +869,6 @@
 			files = (
 				320B6C86F11D9990244A9731 /* Three20.bundle in Resources */,
 				20250DB213B8EC26006F208B /* InfoPlist.strings in Resources */,
-				20250DC213B8EC26006F208B /* MainWindow_iPhone.xib in Resources */,
-				20250DC913B8EC26006F208B /* MainWindow_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -907,6 +909,8 @@
 				20250DBB13B8EC26006F208B /* RestKitDev.xcdatamodeld in Sources */,
 				20250DBF13B8EC26006F208B /* RestKitDevAppDelegate_iPhone.m in Sources */,
 				20250DC613B8EC26006F208B /* RestKitDevAppDelegate_iPad.m in Sources */,
+				2025113B13BA189E006F208B /* RecordsListTableViewController.m in Sources */,
+				2025120113BA1DB1006F208B /* Record.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,22 +979,6 @@
 				20250DB113B8EC26006F208B /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		20250DC013B8EC26006F208B /* MainWindow_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				20250DC113B8EC26006F208B /* en */,
-			);
-			name = MainWindow_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		20250DC713B8EC26006F208B /* MainWindow_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				20250DC813B8EC26006F208B /* en */,
-			);
-			name = MainWindow_iPad.xib;
 			sourceTree = "<group>";
 		};
 		20250DD913B8EC26006F208B /* InfoPlist.strings */ = {
