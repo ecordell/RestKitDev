@@ -19,6 +19,7 @@
     //Configure RestKit
     RKLogConfigureByName("RestKit", RKLogLevelTrace);
     RKLogConfigureByName("RestKit/Network", RKLogLevelDebug);
+    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
     RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
     RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
     
@@ -35,12 +36,16 @@
      nil];
     [objectManager.mappingProvider registerMapping:recordMapping withRootKeyPath:@"record"];
     
+    [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodGET];
     [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodPOST];
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodPUT];
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodDELETE];
     
     [[RKManagedObjectSyncObserver sharedSyncObserver] registerClassForSyncing:[Record class]];
     NSLog(@"Registered Classes: %@", [[RKManagedObjectSyncObserver sharedSyncObserver] registeredClasses]);
+    
+    [NSTimer scheduledTimerWithTimeInterval:30 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOfflineMode) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:45 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOnlineMode) userInfo:nil repeats:YES];
     
     //manager.objectStore.managedObjectCache = [[LandscapesObjectCache new] autorelease];
     //RKRequestQueue.sharedQueue.suspended = NO;

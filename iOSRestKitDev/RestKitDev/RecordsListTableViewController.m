@@ -71,9 +71,7 @@
 - (void)loadData {
     // Load the object model via RestKit	
     RKObjectManager* objectManager = [RKObjectManager sharedManager];
-    RKObjectMapping* recordMapping = [objectManager.mappingProvider objectMappingForKeyPath:@"record"];
-    
-    [objectManager loadObjectsAtResourcePath:@"/records" objectMapping:recordMapping delegate:self];
+    [objectManager loadObjectsAtResourcePath:@"/records" delegate:self];
 }
 
 - (void)viewDidUnload {
