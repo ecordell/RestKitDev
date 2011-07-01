@@ -10,6 +10,7 @@
 #import <RestKit/RestKit.h>
 #import <UIKit/UIKit.h>
 #import "Record.h"
+#import <RestKit/CoreData/CoreData.h>
 
 @interface RecordAddViewController : TTViewController <UITextFieldDelegate, RKObjectLoaderDelegate> {
     UIButton IBOutlet *addButton;

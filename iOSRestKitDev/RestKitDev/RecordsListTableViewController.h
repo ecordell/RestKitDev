@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <Three20/Three20.h>
-#import <RestKit/Three20/Three20.h>
 #import "Record.h"
 
-@interface RecordsListTableViewController : TTTableViewController {
-    NSString* _resourcePath;
-	Class _resourceClass;
+@interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate> {
+    UITableView* _tableView;
+    NSArray* _records;
 }
+- (id)initWithNavigatorURL:(NSURL *)URL query:(NSDictionary *)query;
+- (void)loadObjectsFromDataStore;
+- (void)loadData;
 - (void)addButtonWasPressed:(id)sender;
 
 @end

@@ -63,7 +63,13 @@
 - (IBAction)addButtonPressed {
     Record *record = [[Record object] retain];
     record.name = addTextField.text;
-    [[RKObjectManager sharedManager] postObject:record delegate:self];
+    //[[RKObjectManager sharedManager] postObject:record delegate:self];
+    NSError *error = nil;
+    [[RKManagedObjectSyncObserver sharedSyncObserver] shouldPostObject:record error:&error];
+    
+    NSLog(@"New Sync Status: %@", record._rkManagedObjectSyncStatus);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:record];
+	TTOpenURL(@"tt://records");
 }
 #pragma mark RKObjectLoaderDelegate methods
 
@@ -71,7 +77,6 @@
 	// Post notification telling view controllers to reload.
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:[objects lastObject]];
 	TTOpenURL(@"tt://records");
-	//[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {

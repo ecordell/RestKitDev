@@ -396,6 +396,7 @@
 				20250DD613B8EC26006F208B /* RestKitDevTests */,
 				20250DA413B8EC26006F208B /* Frameworks */,
 				20250DA213B8EC26006F208B /* Products */,
+				20250EA213B8EFBB006F208B /* RestKit.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -425,7 +426,6 @@
 				20250ECF13B8F0BA006F208B /* libRestKitObjectMapping.a */,
 				20250ED013B8F0BA006F208B /* libRestKitSupport.a */,
 				20250ED113B8F0BA006F208B /* libRestKitThree20.a */,
-				20250EA213B8EFBB006F208B /* RestKit.xcodeproj */,
 				3201088596B4756681693700 /* Three20UICommon.xcodeproj */,
 				320D7DCCE32703ACAB9A45E0 /* Three20.xcodeproj */,
 				320A737074758E53BA54BE90 /* Three20UINavigator.xcodeproj */,
@@ -453,10 +453,10 @@
 				20250DBC13B8EC26006F208B /* iPhone */,
 				20250DC313B8EC26006F208B /* iPad */,
 				20250DAE13B8EC26006F208B /* Supporting Files */,
-				2025113913BA189E006F208B /* RecordsListTableViewController.h */,
 				202514B213BA3850006F208B /* RecordAddViewController.h */,
 				202514B313BA3850006F208B /* RecordAddViewController.m */,
 				202514B413BA3851006F208B /* RecordAddViewController.xib */,
+				2025113913BA189E006F208B /* RecordsListTableViewController.h */,
 				2025113A13BA189E006F208B /* RecordsListTableViewController.m */,
 			);
 			path = RestKitDev;

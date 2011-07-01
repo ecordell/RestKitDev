@@ -14,9 +14,6 @@
 - (id)initWithNavigatorURL:(NSURL *)URL query:(NSDictionary *)query {
 	if ((self = [super initWithNavigatorURL:URL query:query])) {
 		self.title = @"Records";
-		
-		_resourcePath = [@"/records" retain];
-		_resourceClass = [Record class];
 	}
 	return self;
 }
@@ -24,16 +21,20 @@
 - (void)loadView {
 	[super loadView];
     
-    RKObjectTTTableViewDataSource* dataSource = [RKObjectTTTableViewDataSource dataSource];
-    RKObjectMapping* mapping = [RKObjectMapping mappingForClass:[TTTableTextItem class]];
-    [mapping mapKeyPath:@"name" toAttribute:@"text"];
-    [dataSource mapObjectClass:[Record class] toTableItemWithMapping:mapping];
-    RKObjectLoader* objectLoader = [[RKObjectManager sharedManager] objectLoaderWithResourcePath:_resourcePath delegate:nil];
-    dataSource.model = [RKObjectLoaderTTModel modelWithObjectLoader:objectLoader];
-    self.dataSource = dataSource;
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480-64) style:UITableViewStylePlain];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;		
+    _tableView.backgroundColor = [UIColor clearColor];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:_tableView];
+    
+    // Load statuses from core data
+    [self loadObjectsFromDataStore];
+    
     UIBarButtonItem* item = nil;
 	self.navigationItem.leftBarButtonItem = item;
 	[item release];
+
     
 	UIButton* newButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	UIImage* newButtonImage = [UIImage imageNamed:@"add.png"];
@@ -45,29 +46,89 @@
     
 	//Background
 	self.view.backgroundColor = [UIColor whiteColor];
-	self.tableView.backgroundColor = [UIColor whiteColor];
     
     //Register for notifications to know when to reload
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidateModel) name:@"NewRecord" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjectsFromDataStore) name:@"NewRecord" object:nil];
+    
+    [self loadData];
     
 }
+
+- (void)dealloc {
+	[_tableView release];
+	[_records release];
+    [super dealloc];
+}
+
+- (void)loadObjectsFromDataStore {
+	[_records release];
+	NSFetchRequest* request = [Record fetchRequest];
+	NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:descriptor]];
+	_records = [[Record objectsWithFetchRequest:request] retain];
+}
+
+- (void)loadData {
+    // Load the object model via RestKit	
+    RKObjectManager* objectManager = [RKObjectManager sharedManager];
+    RKObjectMapping* recordMapping = [objectManager.mappingProvider objectMappingForKeyPath:@"record"];
+    
+    [objectManager loadObjectsAtResourcePath:@"/records" objectMapping:recordMapping delegate:self];
+}
+
 - (void)viewDidUnload {
 	[super viewDidUnload];
     //Unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)didLoadModel:(BOOL)firstTime {
-	[super didLoadModel:firstTime];
-    
-    /*if ([self.model isKindOfClass:[RKObjectLoaderTTModel class]]) {
-		RKObjectLoaderTTModel* model = (RKObjectLoaderTTModel*)self.model;
-        
-	}*/
-}
 
 - (void)addButtonWasPressed:(id)sender {
 	TTOpenURL(@"tt://records/add");
+}
+
+#pragma mark RKObjectLoaderDelegate methods
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
+	[self loadObjectsFromDataStore];
+	[_tableView reloadData];
+}
+
+- (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {
+	UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"Error" 
+                                                     message:[error localizedDescription] 
+                                                    delegate:nil 
+                                           cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
+	[alert show];
+	NSLog(@"Hit error: %@", error);
+}
+
+#pragma mark UITableViewDelegate methods
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	CGSize size = [[[_records objectAtIndex:indexPath.row] name] sizeWithFont:[UIFont systemFontOfSize:22] constrainedToSize:CGSizeMake(300, 9000)];
+	return size.height + 10;
+}
+
+#pragma mark UITableViewDataSource methods
+
+- (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
+	return [_records count];
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSString* reuseIdentifier = @"Record Cell";
+	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+	if (nil == cell) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
+		cell.textLabel.font = [UIFont systemFontOfSize:14];
+		cell.textLabel.numberOfLines = 0;
+		cell.textLabel.backgroundColor = [UIColor clearColor];
+	}
+    Record* record = [_records objectAtIndex:indexPath.row];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@, %i", record.name, [record._rkManagedObjectSyncStatus intValue]];
+	return cell;
 }
 
 @end

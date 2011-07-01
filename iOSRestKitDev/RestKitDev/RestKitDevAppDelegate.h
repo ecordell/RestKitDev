@@ -9,7 +9,6 @@
 #import <Three20/Three20.h>
 #import <RestKit/RestKit.h>
 #import <RestKit/CoreData/CoreData.h>
-#import <RestKit/ObjectMapping/RKRailsRouter.h>
 
 @interface RestKitDevAppDelegate : NSObject <UIApplicationDelegate> {
     

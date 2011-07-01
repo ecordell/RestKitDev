@@ -24,6 +24,7 @@
     
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://restkitbackend.dev"];
     objectManager.objectStore = [[[RKManagedObjectStore alloc] initWithStoreFilename:@"RestKitDev.sqlite"] autorelease];
+
     
     RKManagedObjectMapping* recordMapping = [RKManagedObjectMapping mappingForClass:[Record class]];
     recordMapping.setNilForMissingRelationships = YES; // clear out any missing attributes (token on logout)
@@ -38,7 +39,8 @@
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodPUT];
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodDELETE];
     
-    
+    [[RKManagedObjectSyncObserver sharedSyncObserver] registerClassForSyncing:[Record class]];
+    NSLog(@"Registered Classes: %@", [[RKManagedObjectSyncObserver sharedSyncObserver] registeredClasses]);
     
     //manager.objectStore.managedObjectCache = [[LandscapesObjectCache new] autorelease];
     //RKRequestQueue.sharedQueue.suspended = NO;
