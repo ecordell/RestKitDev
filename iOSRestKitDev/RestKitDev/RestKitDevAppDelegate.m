@@ -9,6 +9,7 @@
 #import "RestKitDevAppDelegate.h"
 #import "RecordsListTableViewController.h"
 #import "RecordAddViewController.h"
+#import "RestKitDevManagedObjectCache.h"
 
 @implementation RestKitDevAppDelegate
 
@@ -18,14 +19,13 @@
     
     //Configure RestKit
     RKLogConfigureByName("RestKit", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/Network", RKLogLevelDebug);
     RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelDebug);
     RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/CoreData", RKLogLevelTrace);
     
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://restkitbackend.dev"];
     objectManager.objectStore = [[[RKManagedObjectStore alloc] initWithStoreFilename:@"RestKitDev.sqlite"] autorelease];
-
+    objectManager.objectStore.managedObjectCache = [[RestKitDevManagedObjectCache new] autorelease];
     
     RKManagedObjectMapping* recordMapping = [RKManagedObjectMapping mappingForClass:[Record class]];
     recordMapping.setNilForMissingRelationships = YES; // clear out any missing attributes (token on logout)
@@ -36,7 +36,6 @@
      nil];
     [objectManager.mappingProvider registerMapping:recordMapping withRootKeyPath:@"record"];
     
-    [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodGET];
     [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodPOST];
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodPUT];
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodDELETE];
