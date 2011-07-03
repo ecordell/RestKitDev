@@ -18,11 +18,6 @@
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self loadData];
-}
-
 - (void)loadView {
 	[super loadView];
     
@@ -55,8 +50,24 @@
     //Register for notifications to know when to reload
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjectsFromDataStore) name:@"NewRecord" object:nil];
     
+    //set self as delegate for syncing
+    [[RKManagedObjectSyncObserver sharedSyncObserver] setDelegate:self];
+    
     [self loadData];
     
+}
+//sync delegate methods
+- (void)didStartSyncing {
+    
+}
+
+- (void)didFinishSyncing {
+    [self loadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self loadObjectsFromDataStore];
+    [_tableView reloadData];
 }
 
 - (void)dealloc {
@@ -68,7 +79,7 @@
 - (void)loadObjectsFromDataStore {
 	[_records release];
 	NSFetchRequest* request = [Record fetchRequest];
-	NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+	NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"recordId" ascending:YES];
 	[request setSortDescriptors:[NSArray arrayWithObject:descriptor]];
 	_records = [[Record objectsWithFetchRequest:request] retain];
 }

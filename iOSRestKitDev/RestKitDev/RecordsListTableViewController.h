@@ -10,7 +10,7 @@
 #import <Three20/Three20.h>
 #import "Record.h"
 
-@interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate> {
+@interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate,  RKManagedObjectSyncDelegate>{
     UITableView* _tableView;
     NSArray* _records;
 }

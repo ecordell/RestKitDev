@@ -41,6 +41,8 @@
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodDELETE];
     
     [[RKManagedObjectSyncObserver sharedSyncObserver] registerClassForSyncing:[Record class]];
+    [[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:YES];
+     
     NSLog(@"Registered Classes: %@", [[RKManagedObjectSyncObserver sharedSyncObserver] registeredClasses]);
     
     [NSTimer scheduledTimerWithTimeInterval:30 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOfflineMode) userInfo:nil repeats:YES];
