@@ -14,6 +14,7 @@
 - (id)initWithNavigatorURL:(NSURL *)URL query:(NSDictionary *)query {
 	if ((self = [super initWithNavigatorURL:URL query:query])) {
 		self.title = @"Records";
+        _records = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -34,15 +35,9 @@
     UIBarButtonItem* item = nil;
 	self.navigationItem.leftBarButtonItem = item;
 	[item release];
-
-    
-	UIButton* newButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	UIImage* newButtonImage = [UIImage imageNamed:@"add.png"];
-	[newButton setImage:newButtonImage forState:UIControlStateNormal];
-	[newButton addTarget:self action:@selector(addButtonWasPressed:) forControlEvents:UIControlEventTouchUpInside];
-	[newButton setFrame:CGRectMake(0, 0, newButtonImage.size.width, newButtonImage.size.height)];
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonWasPressed:)];	
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonWasPressed:)];
     
 	//Background
 	self.view.backgroundColor = [UIColor whiteColor];
@@ -78,10 +73,8 @@
 
 - (void)loadObjectsFromDataStore {
 	[_records release];
-	NSFetchRequest* request = [Record fetchRequest];
-	NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"recordId" ascending:YES];
-	[request setSortDescriptors:[NSArray arrayWithObject:descriptor]];
-	_records = [[Record objectsWithFetchRequest:request] retain];
+	NSFetchRequest* request = [[[[[RKObjectManager sharedManager] objectStore] managedObjectCache] fetchRequestsForResourcePath:@"/records"] objectAtIndex:0];
+	_records = [[NSMutableArray arrayWithArray:[Record objectsWithFetchRequest:request]] retain];
 }
 
 - (void)loadData {
@@ -99,6 +92,14 @@
 
 - (void)addButtonWasPressed:(id)sender {
 	TTOpenURL(@"tt://records/add");
+}
+
+- (void)editButtonWasPressed:(id)sender {
+    if ([_tableView isEditing]) {
+        [_tableView setEditing: NO animated: YES];
+    } else {
+        [_tableView setEditing: YES animated: YES];
+    }
 }
 
 #pragma mark RKObjectLoaderDelegate methods
@@ -122,6 +123,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	CGSize size = [[[_records objectAtIndex:indexPath.row] name] sizeWithFont:[UIFont systemFontOfSize:22] constrainedToSize:CGSizeMake(300, 9000)];
 	return size.height + 10;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSError *error;
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [[RKManagedObjectSyncObserver sharedSyncObserver] shouldDeleteObject:[_records objectAtIndex:indexPath.row] error:&error];
+        [_records removeObjectAtIndex:indexPath.row];
+        [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+    }
 }
 
 #pragma mark UITableViewDataSource methods

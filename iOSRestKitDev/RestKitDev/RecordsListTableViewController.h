@@ -12,11 +12,12 @@
 
 @interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate,  RKManagedObjectSyncDelegate>{
     UITableView* _tableView;
-    NSArray* _records;
+    NSMutableArray* _records;
 }
 - (id)initWithNavigatorURL:(NSURL *)URL query:(NSDictionary *)query;
 - (void)loadObjectsFromDataStore;
 - (void)loadData;
 - (void)addButtonWasPressed:(id)sender;
+- (void)editButtonWasPressed:(id)sender;
 
 @end

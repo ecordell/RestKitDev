@@ -13,8 +13,9 @@
 - (NSArray*)fetchRequestsForResourcePath:(NSString*)resourcePath {
 	if ([resourcePath isEqualToString:@"/records"]) {
 		NSFetchRequest* request = [Record fetchRequest];
-		NSSortDescriptor* sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease];
+		NSSortDescriptor* sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"recordId" ascending:NO] autorelease];
 		[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"_rkManagedObjectSyncStatus < 3"]];
 		return [NSArray arrayWithObject:request];
 	}
     
