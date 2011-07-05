@@ -15,9 +15,11 @@
 @interface RecordAddViewController : TTViewController <UITextFieldDelegate, RKObjectLoaderDelegate> {
     UIButton IBOutlet *addButton;
     UITextField IBOutlet *addTextField;
+    Record* _record;
 }
 @property (nonatomic, retain) UIButton *addButton;
 @property (nonatomic, retain) UITextField *addTextField;
+@property (nonatomic, retain) Record *record;
 - (IBAction)addButtonPressed;
 
 @end

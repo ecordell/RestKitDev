@@ -56,7 +56,7 @@
     
     TTURLMap* map = navigator.URLMap;
     [map from:@"tt://records" toViewController:[RecordsListTableViewController class]];
-    [map from:@"tt://records/add" toViewController:[RecordAddViewController class]];
+    [map from:@"tt://records/add?" toViewController:[RecordAddViewController class]];
     
     TTOpenURL(@"tt://records");
     

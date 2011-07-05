@@ -10,7 +10,7 @@
 
 
 @implementation RecordAddViewController
-@synthesize addButton, addTextField;
+@synthesize addButton, addTextField, record = _record;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -21,8 +21,13 @@
     return self;
 }
 - (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
-	
+	if(query){
+		if([query objectForKey:@"record"]){ 
+			_record = (Record*) [query objectForKey:@"record"]; 
+		}
+	} 
     [self initWithNibName:@"RecordAddViewController" bundle:[NSBundle mainBundle]];
+    
 	return self;
 }
 
@@ -45,6 +50,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    if (_record) {
+        addTextField.text = _record.name;
+    }
 }
 
 - (void)viewDidUnload
@@ -61,15 +69,19 @@
 }
 
 - (IBAction)addButtonPressed {
-    Record *record = [[Record object] retain];
-    record.name = addTextField.text;
-    //[[RKObjectManager sharedManager] postObject:record delegate:self];
     NSError *error = nil;
-    [[RKManagedObjectSyncObserver sharedSyncObserver] shouldPostObject:record error:&error];
-    
-    NSLog(@"New Sync Status: %@", record._rkManagedObjectSyncStatus);
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:record];
-	TTOpenURL(@"tt://records");
+    if (_record) {
+        _record.name = addTextField.text;
+        [[RKManagedObjectSyncObserver sharedSyncObserver] shouldPutObject:_record error:&error];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:_record];
+        TTOpenURL(@"tt://records");
+    } else {
+        Record *record = [[Record object] retain];
+        record.name = addTextField.text;
+        [[RKManagedObjectSyncObserver sharedSyncObserver] shouldPostObject:record error:&error];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:record];
+        TTOpenURL(@"tt://records");
+    }
 }
 #pragma mark RKObjectLoaderDelegate methods
 
