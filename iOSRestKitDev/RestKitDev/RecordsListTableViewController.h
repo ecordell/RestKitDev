@@ -18,6 +18,6 @@
 - (void)loadObjectsFromDataStore;
 - (void)loadData;
 - (void)addButtonWasPressed:(id)sender;
-- (void)editButtonWasPressed:(id)sender;
+- (void)syncButtonWasPressed:(id)sender;
 
 @end

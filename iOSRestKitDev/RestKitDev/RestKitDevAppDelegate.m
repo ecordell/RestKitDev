@@ -41,15 +41,11 @@
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodDELETE];
     
     [[RKManagedObjectSyncObserver sharedSyncObserver] registerClassForSyncing:[Record class]];
-    [[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:YES];
-     
-    NSLog(@"Registered Classes: %@", [[RKManagedObjectSyncObserver sharedSyncObserver] registeredClasses]);
     
-    [NSTimer scheduledTimerWithTimeInterval:30 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOfflineMode) userInfo:nil repeats:YES];
-    [NSTimer scheduledTimerWithTimeInterval:45 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOnlineMode) userInfo:nil repeats:YES];
-    
-    //manager.objectStore.managedObjectCache = [[LandscapesObjectCache new] autorelease];
-    //RKRequestQueue.sharedQueue.suspended = NO;
+    //Change to YES and uncomment other lines for autosync demo
+    [[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:NO];
+    //[NSTimer scheduledTimerWithTimeInterval:30 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOfflineMode) userInfo:nil repeats:YES];
+    //[NSTimer scheduledTimerWithTimeInterval:45 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOnlineMode) userInfo:nil repeats:YES];
     
     TTNavigator* navigator = [TTNavigator navigator];
     navigator.persistenceMode = TTNavigatorPersistenceModeTop;

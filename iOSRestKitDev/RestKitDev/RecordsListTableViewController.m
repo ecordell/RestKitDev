@@ -37,7 +37,7 @@
 	[item release];
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonWasPressed:)];	
-    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonWasPressed:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(syncButtonWasPressed:)];
     
 	//Background
 	self.view.backgroundColor = [UIColor whiteColor];
@@ -94,12 +94,8 @@
 	TTOpenURL(@"tt://records/add");
 }
 
-- (void)editButtonWasPressed:(id)sender {
-    if ([_tableView isEditing]) {
-        [_tableView setEditing: NO animated: YES];
-    } else {
-        [_tableView setEditing: YES animated: YES];
-    }
+- (void)syncButtonWasPressed:(id)sender {
+    [[RKManagedObjectSyncObserver sharedSyncObserver] sync];
 }
 
 #pragma mark RKObjectLoaderDelegate methods
