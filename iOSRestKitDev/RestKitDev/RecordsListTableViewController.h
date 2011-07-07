@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Three20/Three20.h>
+#import "RestKitDevAppDelegate.h"
 #import "Record.h"
 
 @interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate,  RKManagedObjectSyncDelegate>{

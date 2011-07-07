@@ -34,6 +34,7 @@
 - (void)dealloc
 {
     [super dealloc];
+    [_record release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,6 +53,7 @@
     // Do any additional setup after loading the view from its nib.
     if (_record) {
         addTextField.text = _record.name;
+        addButton.titleLabel.text = @"Edit Record";
     }
 }
 
@@ -72,6 +74,7 @@
     NSError *error = nil;
     if (_record) {
         _record.name = addTextField.text;
+        [[[RKObjectManager sharedManager] objectStore] save];
         [[RKManagedObjectSyncObserver sharedSyncObserver] shouldPutObject:_record error:&error];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:_record];
         TTOpenURL(@"tt://records");

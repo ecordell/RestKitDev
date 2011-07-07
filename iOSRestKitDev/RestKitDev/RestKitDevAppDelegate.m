@@ -17,11 +17,11 @@
 {
     
     
-    //Configure RestKit
-    RKLogConfigureByName("RestKit", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
-    RKLogConfigureByName("RestKit/CoreData", RKLogLevelTrace);
+    //Configure RestKit Logging
+    //RKLogConfigureByName("RestKit", RKLogLevelInfo);
+    //RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    //RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+    //RKLogConfigureByName("RestKit/CoreData", RKLogLevelTrace);
     
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://restkitbackend.dev"];
     objectManager.objectStore = [[[RKManagedObjectStore alloc] initWithStoreFilename:@"RestKitDev.sqlite"] autorelease];
@@ -41,11 +41,24 @@
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodDELETE];
     
     [[RKManagedObjectSyncObserver sharedSyncObserver] registerClassForSyncing:[Record class]];
-    
-    //Change to YES and uncomment other lines for autosync demo
     [[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:NO];
-    //[NSTimer scheduledTimerWithTimeInterval:30 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOfflineMode) userInfo:nil repeats:YES];
-    //[NSTimer scheduledTimerWithTimeInterval:45 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOnlineMode) userInfo:nil repeats:YES];
+    
+    /*
+     *  Uncomment to silence cache write errors
+     */
+    
+    //[[objectManager client] setCachePolicy:RKRequestCachePolicyNone];
+    
+    /*
+     *  Uncomment the following four lines to demo autosyncing
+     */
+    
+    /*
+    [[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:YES];
+    [NSTimer scheduledTimerWithTimeInterval:30 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOfflineMode) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:45 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOnlineMode) userInfo:nil repeats:YES];
+    RKLogConfigureByName("RestKit/CoreData", RKLogLevelInfo);
+    */
     
     TTNavigator* navigator = [TTNavigator navigator];
     navigator.persistenceMode = TTNavigatorPersistenceModeTop;

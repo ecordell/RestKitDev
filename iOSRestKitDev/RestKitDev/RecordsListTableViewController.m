@@ -29,7 +29,7 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
-    // Load statuses from core data
+    // Load records from core data
     [self loadObjectsFromDataStore];
     
     UIBarButtonItem* item = nil;
@@ -44,20 +44,11 @@
     
     //Register for notifications to know when to reload
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjectsFromDataStore) name:@"NewRecord" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishSyncing) name:RKAutoSyncDidSync 
+                                               object:[RKManagedObjectSyncObserver sharedSyncObserver]];
     
-    //set self as delegate for syncing
-    [[RKManagedObjectSyncObserver sharedSyncObserver] setDelegate:self];
+    //[self loadData];
     
-    [self loadData];
-    
-}
-//sync delegate methods
-- (void)didStartSyncing {
-    
-}
-
-- (void)didFinishSyncing {
-    [self loadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -72,7 +63,9 @@
 }
 
 - (void)loadObjectsFromDataStore {
-	[_records release];
+    if (_records) {
+        [_records release];
+    }
 	NSFetchRequest* request = [[[[[RKObjectManager sharedManager] objectStore] managedObjectCache] fetchRequestsForResourcePath:@"/records"] objectAtIndex:0];
 	_records = [[NSMutableArray arrayWithArray:[Record objectsWithFetchRequest:request]] retain];
 }
@@ -95,7 +88,30 @@
 }
 
 - (void)syncButtonWasPressed:(id)sender {
-    [[RKManagedObjectSyncObserver sharedSyncObserver] sync];
+    [[RKManagedObjectSyncObserver sharedSyncObserver] syncWithDelegate:self];
+}
+
+#pragma mark RKManagedObjectSyncDelegate methods
+- (void)didStartSyncing {
+    RKLogInfo("Syncing has started");
+}
+- (void)didFinishSyncing {
+    RKLogInfo("Syncing has completed successfully.");
+    [self loadData];
+}
+- (void)didFailSyncingWithError:(NSError*)error {
+    RKLogInfo("An error occured while syncing: %@", [error localizedDescription]);
+    UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"Error" 
+                                                     message:[error localizedDescription] 
+                                                    delegate:nil 
+                                           cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
+	[alert show];
+	NSLog(@"Hit error: %@", error);
+}
+- (void)didSyncNothing {
+    //fetch from the server even if nothing is synced
+    RKLogInfo(@"No records to sync.");
+    [self loadData];
 }
 
 #pragma mark RKObjectLoaderDelegate methods
@@ -147,14 +163,38 @@
 	NSString* reuseIdentifier = @"Record Cell";
 	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 	if (nil == cell) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier] autorelease];
 		cell.textLabel.font = [UIFont systemFontOfSize:14];
 		cell.textLabel.numberOfLines = 0;
 		cell.textLabel.backgroundColor = [UIColor clearColor];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:10];
+		cell.detailTextLabel.numberOfLines = 0;
+		cell.detailTextLabel.backgroundColor = [UIColor clearColor];
 	}
     Record* record = [_records objectAtIndex:indexPath.row];
-	cell.textLabel.text = [NSString stringWithFormat:@"%@, %i", record.name, [record._rkManagedObjectSyncStatus intValue]];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@", record.name];
+    NSString *syncStatus;
+    switch ([record._rkManagedObjectSyncStatus intValue]) {
+        case RKSyncStatusShouldNotSync:
+            syncStatus = [NSString stringWithFormat:@"Will not sync"];
+            break;
+        case RKSyncStatusShouldPost:
+            syncStatus = [NSString stringWithFormat:@"Will create"];
+            break;
+        case RKSyncStatusShouldPut:
+            syncStatus = [NSString stringWithFormat:@"Will update"];
+            break;
+        //This won't be seen since we're removing records from the table on delete
+        //Also the fetchrequest in the managedobjectcache excludes deleted records
+        case RKSyncStatusShouldDelete:
+            syncStatus = [NSString stringWithFormat:@"Will delete"];
+            break;
+        default:
+            break;
+    }
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Sync Status: %@", syncStatus];
 	return cell;
 }
+
 
 @end

@@ -61,7 +61,7 @@ class RecordsController < ApplicationController
     respond_to do |format|
       if @record.update_attributes(params[:record])
         format.html { redirect_to(@record, :notice => 'Record was successfully updated.') }
-        format.json  { render :json => @record }
+        format.json  { head :ok }
       else
         format.html { render :action => "edit" }
         format.json  { render :json => @record.errors, :status => :unprocessable_entity }
@@ -77,7 +77,7 @@ class RecordsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(records_url) }
-      format.json  { render :json => @record }
+      format.json  { head :ok }
     end
   end
 end

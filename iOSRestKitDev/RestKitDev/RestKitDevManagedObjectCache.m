@@ -19,6 +19,17 @@
 		return [NSArray arrayWithObject:request];
 	}
     
+    // match on /records/:id
+	NSArray* components = [resourcePath componentsSeparatedByString:@"/"];
+	if ([components count] == 3 &&
+		[[components objectAtIndex:1] isEqualToString:@"records"]) {
+		NSNumber* recordId = [NSNumber numberWithInt:[[components objectAtIndex:2] intValue]];
+		NSFetchRequest* request = [Record fetchRequest];
+		NSPredicate* predicate = [NSPredicate predicateWithFormat:@"recordId = %@", recordId, nil];
+		[request setPredicate:predicate];
+		return [NSArray arrayWithObject:request];
+	}
+    
 	return nil;
 }
 @end
