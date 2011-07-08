@@ -133,8 +133,7 @@
 #pragma mark UITableViewDelegate methods
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	CGSize size = [[[_records objectAtIndex:indexPath.row] name] sizeWithFont:[UIFont systemFontOfSize:22] constrainedToSize:CGSizeMake(300, 9000)];
-	return size.height + 10;
+    return 50;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
