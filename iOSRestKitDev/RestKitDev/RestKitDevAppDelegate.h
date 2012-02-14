@@ -8,7 +8,7 @@
 
 #import <Three20/Three20.h>
 #import <RestKit/RestKit.h>
-#import <RestKit/CoreData/CoreData.h>
+#import <RestKit/CoreData.h>
 
 @interface RestKitDevAppDelegate : NSObject <UIApplicationDelegate> {
     

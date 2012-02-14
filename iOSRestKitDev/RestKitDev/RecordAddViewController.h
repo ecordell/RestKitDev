@@ -6,13 +6,12 @@
 //  Copyright 2011 NewAperio. All rights reserved.
 //
 
-#import <Three20/Three20.h>
 #import <RestKit/RestKit.h>
+#import <RestKit/CoreData.h>
 #import <UIKit/UIKit.h>
 #import "Record.h"
-#import <RestKit/CoreData/CoreData.h>
 
-@interface RecordAddViewController : TTViewController <UITextFieldDelegate, RKObjectLoaderDelegate> {
+@interface RecordAddViewController : UIViewController <UITextFieldDelegate, RKObjectLoaderDelegate> {
     UIButton IBOutlet *addButton;
     UITextField IBOutlet *addTextField;
     Record* _record;

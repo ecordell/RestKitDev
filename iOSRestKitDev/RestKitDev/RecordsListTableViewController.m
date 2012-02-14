@@ -84,11 +84,11 @@
 
 
 - (void)addButtonWasPressed:(id)sender {
-	TTOpenURL(@"tt://records/add");
+	//TTOpenURL(@"tt://records/add");
 }
 
 - (void)syncButtonWasPressed:(id)sender {
-    [[RKManagedObjectSyncObserver sharedSyncObserver] syncWithDelegate:self];
+    //[[RKManagedObjectSyncObserver sharedSyncObserver] syncWithDelegate:self];
 }
 
 #pragma mark RKManagedObjectSyncDelegate methods
@@ -147,8 +147,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:[_records objectAtIndex:indexPath.row], @"record", nil];
-	[[TTNavigator navigator] openURLAction:[[[TTURLAction actionWithURLPath:@"tt://records/add?"] applyQuery:query] applyAnimated:YES]];
+	//NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:[_records objectAtIndex:indexPath.row], @"record", nil];
+	//[[TTNavigator navigator] openURLAction:[[[TTURLAction actionWithURLPath:@"tt://records/add?"] applyQuery:query] applyAnimated:YES]];
 }
 
 #pragma mark UITableViewDataSource methods
