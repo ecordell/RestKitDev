@@ -11,8 +11,10 @@
 
 @implementation RecordsListTableViewController
 
-- (id)initWithNavigatorURL:(NSURL *)URL query:(NSDictionary *)query {
-	if ((self = [super initWithNavigatorURL:URL query:query])) {
+@synthesize tableView = _tableView;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
 		self.title = @"Records";
         _records = [[NSMutableArray alloc] init];
 	}
@@ -22,30 +24,19 @@
 - (void)loadView {
 	[super loadView];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 480-64) style:UITableViewStylePlain];
     _tableView.dataSource = self;
     _tableView.delegate = self;		
-    _tableView.backgroundColor = [UIColor clearColor];
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.view addSubview:_tableView];
     
     // Load records from core data
     [self loadObjectsFromDataStore];
-    
-    UIBarButtonItem* item = nil;
-	self.navigationItem.leftBarButtonItem = item;
-	[item release];
-	
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonWasPressed:)];	
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(syncButtonWasPressed:)];
     
 	//Background
 	self.view.backgroundColor = [UIColor whiteColor];
     
     //Register for notifications to know when to reload
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjectsFromDataStore) name:@"NewRecord" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishSyncing) name:RKAutoSyncDidSync 
-                                               object:[RKManagedObjectSyncObserver sharedSyncObserver]];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishSyncing) name:RKAutoSyncDidSync 
+  //                                             object:[RKManagedObjectSyncObserver sharedSyncObserver]];
     
     //[self loadData];
     
@@ -66,7 +57,8 @@
     if (_records) {
         [_records release];
     }
-	NSFetchRequest* request = [[[[[RKObjectManager sharedManager] objectStore] managedObjectCache] fetchRequestsForResourcePath:@"/records"] objectAtIndex:0];
+    NSFetchRequest* request = [[[[RKObjectManager sharedManager] objectStore] managedObjectCache] fetchRequestForResourcePath:@"/records"];
+    
 	_records = [[NSMutableArray arrayWithArray:[Record objectsWithFetchRequest:request]] retain];
 }
 
@@ -80,11 +72,6 @@
 	[super viewDidUnload];
     //Unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
-- (void)addButtonWasPressed:(id)sender {
-	//TTOpenURL(@"tt://records/add");
 }
 
 - (void)syncButtonWasPressed:(id)sender {
@@ -139,7 +126,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     NSError *error;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [[RKManagedObjectSyncObserver sharedSyncObserver] shouldDeleteObject:[_records objectAtIndex:indexPath.row] error:&error];
+        //[[RKManagedObjectSyncObserver sharedSyncObserver] shouldDeleteObject:[_records objectAtIndex:indexPath.row] error:&error];
         [_records removeObjectAtIndex:indexPath.row];
         [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
     }
@@ -159,21 +146,17 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString* reuseIdentifier = @"Record Cell";
-	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-	if (nil == cell) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier] autorelease];
-		cell.textLabel.font = [UIFont systemFontOfSize:14];
-		cell.textLabel.numberOfLines = 0;
-		cell.textLabel.backgroundColor = [UIColor clearColor];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:10];
-		cell.detailTextLabel.numberOfLines = 0;
-		cell.detailTextLabel.backgroundColor = [UIColor clearColor];
-	}
-    Record* record = [_records objectAtIndex:indexPath.row];
-	cell.textLabel.text = [NSString stringWithFormat:@"%@", record.name];
-    NSString *syncStatus;
-    switch ([record._rkManagedObjectSyncStatus intValue]) {
+    
+    static NSString *CellIdentifier = @"RecordCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+	Record* record = [_records objectAtIndex:indexPath.row];
+    cell.textLabel.text = record.name;
+
+    
+    //NSString *syncStatus;
+   /* switch ([record._rkManagedObjectSyncStatus intValue]) {
         case RKSyncStatusShouldNotSync:
             syncStatus = [NSString stringWithFormat:@"Will not sync"];
             break;
@@ -190,8 +173,9 @@
             break;
         default:
             break;
-    }
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Sync Status: %@", syncStatus];
+    }*/
+    //cell.detailTextLabel.text = [NSString stringWithFormat:@"Sync Status: %@", syncStatus];
+    
 	return cell;
 }
 

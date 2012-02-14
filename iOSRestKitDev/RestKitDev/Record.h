@@ -6,9 +6,6 @@
 //  Copyright (c) 2011 NewAperio. All rights reserved.
 //
 
-#import <RestKit/RestKit.h>
-#import <RestKit/CoreData/CoreData.h>
-
 
 @interface Record : NSManagedObject {
 @private

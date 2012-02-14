@@ -1,1 +1,4 @@
 
+[submodule "iOSRestKitDev/RestKitDev/RestKit"]
+	path = iOSRestKitDev/RestKitDev/RestKit
+	url = git@github.com:ecordell/RestKit.git

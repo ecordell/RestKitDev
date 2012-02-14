@@ -75,15 +75,15 @@
     if (_record) {
         _record.name = addTextField.text;
         [[[RKObjectManager sharedManager] objectStore] save];
-        [[RKManagedObjectSyncObserver sharedSyncObserver] shouldPutObject:_record error:&error];
+        //[[RKManagedObjectSyncObserver sharedSyncObserver] shouldPutObject:_record error:&error];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:_record];
-        TTOpenURL(@"tt://records");
+        //TTOpenURL(@"tt://records");
     } else {
         Record *record = [[Record object] retain];
         record.name = addTextField.text;
-        [[RKManagedObjectSyncObserver sharedSyncObserver] shouldPostObject:record error:&error];
+        //[[RKManagedObjectSyncObserver sharedSyncObserver] shouldPostObject:record error:&error];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:record];
-        TTOpenURL(@"tt://records");
+        //TTOpenURL(@"tt://records");
     }
 }
 #pragma mark RKObjectLoaderDelegate methods
@@ -91,7 +91,7 @@
 - (void)objectLoader:(RKObjectLoader*)objectLoader didLoadObjects:(NSArray*)objects {
 	// Post notification telling view controllers to reload.
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:[objects lastObject]];
-	TTOpenURL(@"tt://records");
+	//TTOpenURL(@"tt://records");
 }
 
 - (void)objectLoader:(RKObjectLoader*)objectLoader didFailWithError:(NSError*)error {

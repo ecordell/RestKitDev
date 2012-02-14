@@ -12,6 +12,7 @@
 #import "RestKitDevManagedObjectCache.h"
 
 @implementation RestKitDevAppDelegate
+@synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -23,12 +24,14 @@
     //RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
     //RKLogConfigureByName("RestKit/CoreData", RKLogLevelTrace);
     
-    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:@"http://restkitbackend.dev"];
-    objectManager.objectStore = [[[RKManagedObjectStore alloc] initWithStoreFilename:@"RestKitDev.sqlite"] autorelease];
+    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:[NSURL URLWithString: @"http://restkitbackend.dev"]];
+    objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:@"RestKitDev.sqlite" usingSeedDatabaseName:nil managedObjectModel:nil delegate:nil];
+    RKManagedObjectStore *store = objectManager.objectStore;
     objectManager.objectStore.managedObjectCache = [[RestKitDevManagedObjectCache new] autorelease];
+    [RKObjectManager setSharedManager:objectManager];
     
-    RKManagedObjectMapping* recordMapping = [RKManagedObjectMapping mappingForClass:[Record class]];
-    recordMapping.setNilForMissingRelationships = YES; // clear out any missing attributes (token on logout)
+    RKManagedObjectMapping* recordMapping = [RKManagedObjectMapping mappingForEntityWithName:@"Record" inManagedObjectStore:objectManager.objectStore];
+    recordMapping.setNilForMissingRelationships = YES; 
     recordMapping.primaryKeyAttribute = @"recordId";
     [recordMapping mapKeyPathsToAttributes:
      @"id", @"recordId",
@@ -40,8 +43,8 @@
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodPUT];
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodDELETE];
     
-    [[RKManagedObjectSyncObserver sharedSyncObserver] registerClassForSyncing:[Record class]];
-    [[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:NO];
+   // [[RKManagedObjectSyncObserver sharedSyncObserver] registerClassForSyncing:[Record class]];
+    //[[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:NO];
     
     /*
      *  Uncomment to silence cache write errors
@@ -59,17 +62,6 @@
     [NSTimer scheduledTimerWithTimeInterval:45 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOnlineMode) userInfo:nil repeats:YES];
     RKLogConfigureByName("RestKit/CoreData", RKLogLevelInfo);
     */
-    
-    TTNavigator* navigator = [TTNavigator navigator];
-    navigator.persistenceMode = TTNavigatorPersistenceModeTop;
-    
-    TTURLMap* map = navigator.URLMap;
-    [map from:@"tt://records" toViewController:[RecordsListTableViewController class]];
-    [map from:@"tt://records/add?" toViewController:[RecordAddViewController class]];
-    
-    TTOpenURL(@"tt://records");
-    
-    [[TTNavigator navigator].window makeKeyAndVisible];
     
     // We don't want zombies on the device, so alert if zombies are enabled
 	if(getenv("NSZombieEnabled")) {
@@ -128,15 +120,6 @@
      Typically you should set up the Core Data stack here, usually by passing the managed object context to the first view controller.
      self.<#View controller#>.managedObjectContext = self.managedObjectContext;
     */
-}
-
-- (BOOL)navigator:(TTNavigator*)navigator shouldOpenURL:(NSURL*)URL {
-    return YES;
-}
-
-- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)URL {
-    [[TTNavigator navigator] openURLAction:[TTURLAction actionWithURLPath:URL.absoluteString]];
-    return YES;
 }
 
 #pragma mark - Application's Documents directory

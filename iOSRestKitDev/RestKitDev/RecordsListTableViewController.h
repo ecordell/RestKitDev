@@ -7,18 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Three20/Three20.h>
 #import "RestKitDevAppDelegate.h"
 #import "Record.h"
 
-@interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate,  RKManagedObjectSyncDelegate>{
+@interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate>{
     UITableView* _tableView;
     NSMutableArray* _records;
 }
-- (id)initWithNavigatorURL:(NSURL *)URL query:(NSDictionary *)query;
+
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
+
 - (void)loadObjectsFromDataStore;
 - (void)loadData;
-- (void)addButtonWasPressed:(id)sender;
-- (void)syncButtonWasPressed:(id)sender;
+- (IBAction)syncButtonWasPressed:(id)sender;
 
 @end

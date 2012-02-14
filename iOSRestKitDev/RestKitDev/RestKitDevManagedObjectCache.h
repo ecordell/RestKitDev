@@ -6,7 +6,7 @@
 //  Copyright 2011 NewAperio. All rights reserved.
 //
 
-#import <RestKit/CoreData/RKManagedObjectCache.h>
+#import <RestKit/CoreData.h>
 
 @interface RestKitDevManagedObjectCache : NSObject <RKManagedObjectCache> {
     

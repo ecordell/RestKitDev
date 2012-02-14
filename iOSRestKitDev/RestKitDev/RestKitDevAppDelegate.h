@@ -6,13 +6,14 @@
 //  Copyright 2011 NewAperio. All rights reserved.
 //
 
-#import <Three20/Three20.h>
 #import <RestKit/RestKit.h>
 #import <RestKit/CoreData.h>
 
 @interface RestKitDevAppDelegate : NSObject <UIApplicationDelegate> {
     
 }
+
+@property (nonatomic, retain) UIWindow *window;
 
 - (NSURL *)applicationDocumentsDirectory;
 

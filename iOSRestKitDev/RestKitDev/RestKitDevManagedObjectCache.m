@@ -10,13 +10,14 @@
 #import "Record.h"
 
 @implementation RestKitDevManagedObjectCache
-- (NSArray*)fetchRequestsForResourcePath:(NSString*)resourcePath {
-	if ([resourcePath isEqualToString:@"/records"]) {
+
+- (NSFetchRequest *)fetchRequestForResourcePath:(NSString *)resourcePath {
+    if ([resourcePath isEqualToString:@"/records"]) {
 		NSFetchRequest* request = [Record fetchRequest];
 		NSSortDescriptor* sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"recordId" ascending:NO] autorelease];
 		[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"_rkManagedObjectSyncStatus < 3"]];
-		return [NSArray arrayWithObject:request];
+        //[request setPredicate:[NSPredicate predicateWithFormat:@"_rkManagedObjectSyncStatus < 3"]];
+		return request;
 	}
     
     // match on /records/:id
@@ -27,9 +28,9 @@
 		NSFetchRequest* request = [Record fetchRequest];
 		NSPredicate* predicate = [NSPredicate predicateWithFormat:@"recordId = %@", recordId, nil];
 		[request setPredicate:predicate];
-		return [NSArray arrayWithObject:request];
+		return request;
 	}
-    
-	return nil;
+    return nil;
 }
+
 @end
