@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RestKitDevAppDelegate.h"
 #import "Record.h"
+#import "RecordAddViewController.h"
 
 @interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate>{
     UITableView* _tableView;

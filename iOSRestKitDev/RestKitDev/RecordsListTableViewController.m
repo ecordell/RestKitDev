@@ -124,9 +124,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSError *error;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //[[RKManagedObjectSyncObserver sharedSyncObserver] shouldDeleteObject:[_records objectAtIndex:indexPath.row] error:&error];
+        NSError *error;
+        Record *toDelete = [_records objectAtIndex:indexPath.row];
+        NSManagedObjectContext *context = [toDelete managedObjectContext];
+        [toDelete deleteEntity];
+        [context save:&error];
         [_records removeObjectAtIndex:indexPath.row];
         [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
     }
@@ -136,6 +139,15 @@
     
 	//NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:[_records objectAtIndex:indexPath.row], @"record", nil];
 	//[[TTNavigator navigator] openURLAction:[[[TTURLAction actionWithURLPath:@"tt://records/add?"] applyQuery:query] applyAnimated:YES]];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"EditRecord"])
+    {
+        RecordAddViewController *destination = [segue destinationViewController];
+        [destination setRecord:[_records objectAtIndex:[self.tableView indexPathForSelectedRow].row]];
+    }
 }
 
 #pragma mark UITableViewDataSource methods

@@ -26,7 +26,6 @@
     
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:[NSURL URLWithString: @"http://restkitbackend.dev"]];
     objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:@"RestKitDev.sqlite" usingSeedDatabaseName:nil managedObjectModel:nil delegate:nil];
-    RKManagedObjectStore *store = objectManager.objectStore;
     objectManager.objectStore.managedObjectCache = [[RestKitDevManagedObjectCache new] autorelease];
     [RKObjectManager setSharedManager:objectManager];
     
