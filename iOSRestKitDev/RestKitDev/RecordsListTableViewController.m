@@ -25,20 +25,15 @@
 	[super loadView];
     
     _tableView.dataSource = self;
-    _tableView.delegate = self;		
+    _tableView.delegate = self;	
+	
+    [[RKObjectManager sharedManager] syncManager].delegate = self;
     
     // Load records from core data
     [self loadObjectsFromDataStore];
     
-	//Background
-	self.view.backgroundColor = [UIColor whiteColor];
-    
     //Register for notifications to know when to reload
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjectsFromDataStore) name:@"NewRecord" object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishSyncing) name:RKAutoSyncDidSync 
-  //                                             object:[RKManagedObjectSyncObserver sharedSyncObserver]];
-    
-    //[self loadData];
     
 }
 
@@ -75,7 +70,7 @@
 }
 
 - (void)syncButtonWasPressed:(id)sender {
-    //[[RKManagedObjectSyncObserver sharedSyncObserver] syncWithDelegate:self];
+    [[[RKObjectManager sharedManager] syncManager] sync];
 }
 
 #pragma mark RKManagedObjectSyncDelegate methods
@@ -135,12 +130,6 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-	//NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:[_records objectAtIndex:indexPath.row], @"record", nil];
-	//[[TTNavigator navigator] openURLAction:[[[TTURLAction actionWithURLPath:@"tt://records/add?"] applyQuery:query] applyAnimated:YES]];
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"EditRecord"])
@@ -165,28 +154,6 @@
     
 	Record* record = [_records objectAtIndex:indexPath.row];
     cell.textLabel.text = record.name;
-
-    
-    //NSString *syncStatus;
-   /* switch ([record._rkManagedObjectSyncStatus intValue]) {
-        case RKSyncStatusShouldNotSync:
-            syncStatus = [NSString stringWithFormat:@"Will not sync"];
-            break;
-        case RKSyncStatusShouldPost:
-            syncStatus = [NSString stringWithFormat:@"Will create"];
-            break;
-        case RKSyncStatusShouldPut:
-            syncStatus = [NSString stringWithFormat:@"Will update"];
-            break;
-        //This won't be seen since we're removing records from the table on delete
-        //Also the fetchrequest in the managedobjectcache excludes deleted records
-        case RKSyncStatusShouldDelete:
-            syncStatus = [NSString stringWithFormat:@"Will delete"];
-            break;
-        default:
-            break;
-    }*/
-    //cell.detailTextLabel.text = [NSString stringWithFormat:@"Sync Status: %@", syncStatus];
     
 	return cell;
 }

@@ -11,7 +11,7 @@
 #import "Record.h"
 #import "RecordAddViewController.h"
 
-@interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate>{
+@interface RecordsListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, RKObjectLoaderDelegate, RKSyncManagerDelegate>{
     UITableView* _tableView;
     NSMutableArray* _records;
 }

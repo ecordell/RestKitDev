@@ -36,31 +36,14 @@
      @"id", @"recordId",
      @"name", @"name",
      nil];
+    recordMapping.syncMode = RKSyncModeTransparent;
+    
     [objectManager.mappingProvider registerMapping:recordMapping withRootKeyPath:@"record"];
     
+    [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodGET];
     [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodPOST];
-	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodPUT];
-	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/(recordId)" forMethod:RKRequestMethodDELETE];
-    
-   // [[RKManagedObjectSyncObserver sharedSyncObserver] registerClassForSyncing:[Record class]];
-    //[[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:NO];
-    
-    /*
-     *  Uncomment to silence cache write errors
-     */
-    
-    //[[objectManager client] setCachePolicy:RKRequestCachePolicyNone];
-    
-    /*
-     *  Uncomment the following four lines to demo autosyncing
-     */
-    
-    /*
-    [[RKManagedObjectSyncObserver sharedSyncObserver] setShouldAutoSync:YES];
-    [NSTimer scheduledTimerWithTimeInterval:30 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOfflineMode) userInfo:nil repeats:YES];
-    [NSTimer scheduledTimerWithTimeInterval:45 target:[RKManagedObjectSyncObserver sharedSyncObserver] selector:@selector(enteredOnlineMode) userInfo:nil repeats:YES];
-    RKLogConfigureByName("RestKit/CoreData", RKLogLevelInfo);
-    */
+	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/:recordId" forMethod:RKRequestMethodPUT];
+	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/:recordId" forMethod:RKRequestMethodDELETE];
     
     // We don't want zombies on the device, so alert if zombies are enabled
 	if(getenv("NSZombieEnabled")) {
