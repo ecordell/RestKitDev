@@ -74,7 +74,8 @@
     NSError *error = nil;
     if (_record) {
         _record.name = addTextField.text;
-        [[[RKObjectManager sharedManager] objectStore] save];
+        NSError *error = nil;
+        [[[RKObjectManager sharedManager] objectStore] save:&error];
         //[[RKManagedObjectSyncObserver sharedSyncObserver] shouldPutObject:_record error:&error];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:_record];
         //TTOpenURL(@"tt://records");
@@ -83,7 +84,7 @@
         
         Record *record = [[Record object] retain];
         record.name = addTextField.text;
-        [[Record managedObjectContext] save:&error];
+        [[Record currentContext] save:&error];
         //[[[RKObjectManager sharedManager] objectStore] save];
         //[[RKManagedObjectSyncObserver sharedSyncObserver] shouldPostObject:record error:&error];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:record];

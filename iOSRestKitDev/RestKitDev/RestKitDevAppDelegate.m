@@ -9,7 +9,6 @@
 #import "RestKitDevAppDelegate.h"
 #import "RecordsListTableViewController.h"
 #import "RecordAddViewController.h"
-#import "RestKitDevManagedObjectCache.h"
 
 @implementation RestKitDevAppDelegate
 @synthesize window = _window;
@@ -26,7 +25,6 @@
     
     RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:[NSURL URLWithString: @"http://restkitbackend.dev"]];
     objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:@"RestKitDev.sqlite" usingSeedDatabaseName:nil managedObjectModel:nil delegate:nil];
-    objectManager.objectStore.managedObjectCache = [[RestKitDevManagedObjectCache new] autorelease];
     [RKObjectManager setSharedManager:objectManager];
     
     RKManagedObjectMapping* recordMapping = [RKManagedObjectMapping mappingForEntityWithName:@"Record" inManagedObjectStore:objectManager.objectStore];
@@ -36,7 +34,7 @@
      @"id", @"recordId",
      @"name", @"name",
      nil];
-    recordMapping.syncMode = RKSyncModeTransparent;
+    recordMapping.syncMode = RKSyncModeManual;
     
     [objectManager.mappingProvider registerMapping:recordMapping withRootKeyPath:@"record"];
     

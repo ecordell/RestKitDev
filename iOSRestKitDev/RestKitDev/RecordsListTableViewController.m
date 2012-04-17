@@ -52,9 +52,8 @@
     if (_records) {
         [_records release];
     }
-    NSFetchRequest* request = [[[[RKObjectManager sharedManager] objectStore] managedObjectCache] fetchRequestForResourcePath:@"/records"];
     
-	_records = [[NSMutableArray arrayWithArray:[Record objectsWithFetchRequest:request]] retain];
+	_records = [[NSMutableArray arrayWithArray:[Record findAllSortedBy:@"recordId" ascending:YES]] retain];
 }
 
 - (void)loadData {
@@ -158,5 +157,8 @@
 	return cell;
 }
 
+- (void)syncManager:(RKSyncManager *)syncManager didFailSyncingWithError:(NSError*)error {
+    
+}
 
 @end

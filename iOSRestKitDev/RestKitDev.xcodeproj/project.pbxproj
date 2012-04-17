@@ -32,7 +32,6 @@
 		2025120113BA1DB1006F208B /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 2025120013BA1DB1006F208B /* Record.m */; };
 		202514B513BA3851006F208B /* RecordAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202514B313BA3850006F208B /* RecordAddViewController.m */; };
 		202514B613BA3851006F208B /* RecordAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 202514B413BA3851006F208B /* RecordAddViewController.xib */; };
-		2032AF8813BFA79B00BE4D75 /* RestKitDevManagedObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2032AF8713BFA79A00BE4D75 /* RestKitDevManagedObjectCache.m */; };
 		208004FE14EB0E980052EB8C /* MainStoryBoard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 208004FD14EB0E980052EB8C /* MainStoryBoard_iPhone.storyboard */; };
 		2080051414EB12910052EB8C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2080051314EB12910052EB8C /* Security.framework */; };
 		2080051514EB129E0052EB8C /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2080050A14EB12330052EB8C /* libRestKit.a */; };
@@ -40,6 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2015F2AB153D129800CB3BFB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 208004FF14EB12320052EB8C /* RestKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 259C301615128079003066A2;
+			remoteInfo = RestKitResources;
+		};
 		20250DD413B8EC26006F208B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20250D9813B8EC26006F208B /* Project object */;
@@ -119,8 +125,6 @@
 		202514B213BA3850006F208B /* RecordAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordAddViewController.h; sourceTree = "<group>"; };
 		202514B313BA3850006F208B /* RecordAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordAddViewController.m; sourceTree = "<group>"; };
 		202514B413BA3851006F208B /* RecordAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecordAddViewController.xib; sourceTree = "<group>"; };
-		2032AF8613BFA79A00BE4D75 /* RestKitDevManagedObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestKitDevManagedObjectCache.h; sourceTree = "<group>"; };
-		2032AF8713BFA79A00BE4D75 /* RestKitDevManagedObjectCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestKitDevManagedObjectCache.m; sourceTree = "<group>"; };
 		208004FD14EB0E980052EB8C /* MainStoryBoard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryBoard_iPhone.storyboard; sourceTree = "<group>"; };
 		208004FF14EB12320052EB8C /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKitDev/RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
 		2080051314EB12910052EB8C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -215,8 +219,6 @@
 				208004FD14EB0E980052EB8C /* MainStoryBoard_iPhone.storyboard */,
 				2025113913BA189E006F208B /* RecordsListTableViewController.h */,
 				2025113A13BA189E006F208B /* RecordsListTableViewController.m */,
-				2032AF8613BFA79A00BE4D75 /* RestKitDevManagedObjectCache.h */,
-				2032AF8713BFA79A00BE4D75 /* RestKitDevManagedObjectCache.m */,
 			);
 			path = RestKitDev;
 			sourceTree = "<group>";
@@ -277,6 +279,7 @@
 				2080050C14EB12330052EB8C /* RestKitTests.octest */,
 				2080050E14EB12330052EB8C /* RestKit.framework */,
 				2080051014EB12330052EB8C /* RestKitFrameworkTests.octest */,
+				2015F2AC153D129800CB3BFB /* RestKitResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -354,6 +357,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		2015F2AC153D129800CB3BFB /* RestKitResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RestKitResources.bundle;
+			remoteRef = 2015F2AB153D129800CB3BFB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		2080050A14EB12330052EB8C /* libRestKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -435,7 +445,6 @@
 				2025113B13BA189E006F208B /* RecordsListTableViewController.m in Sources */,
 				2025120113BA1DB1006F208B /* Record.m in Sources */,
 				202514B513BA3851006F208B /* RecordAddViewController.m in Sources */,
-				2032AF8813BFA79B00BE4D75 /* RestKitDevManagedObjectCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
