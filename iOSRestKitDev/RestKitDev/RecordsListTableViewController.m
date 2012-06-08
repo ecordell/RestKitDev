@@ -69,10 +69,16 @@
 }
 
 - (void)syncButtonWasPressed:(id)sender {
-    [[[RKObjectManager sharedManager] syncManager] sync];
+    [[[RKObjectManager sharedManager] syncManager] pullObjectsWithSyncMode:RKSyncModeTransparent andClass:nil];
 }
 
 #pragma mark RKManagedObjectSyncDelegate methods
+
+- (void)syncManager:(RKSyncManager *)syncManager didPullObjectsOfClass:(Class)objectClass withSyncMode:(RKSyncMode)syncMode {
+    [self loadObjectsFromDataStore];
+    [_tableView reloadData];
+}
+
 - (void)didStartSyncing {
     RKLogInfo("Syncing has started");
 }

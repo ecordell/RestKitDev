@@ -18,14 +18,17 @@
     
     
     //Configure RestKit Logging
-    //RKLogConfigureByName("RestKit", RKLogLevelInfo);
-    //RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
-    //RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
-    //RKLogConfigureByName("RestKit/CoreData", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit", RKLogLevelInfo);
+    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+    RKLogConfigureByName("RestKit/CoreData", RKLogLevelTrace);
     
-    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:[NSURL URLWithString: @"http://restkitbackend.dev"]];
+    RKObjectManager* objectManager = [RKObjectManager objectManagerWithBaseURL:[NSURL URLWithString: @"http://restkitbackend.dev/"]];
     objectManager.objectStore = [RKManagedObjectStore objectStoreWithStoreFilename:@"RestKitDev.sqlite" usingSeedDatabaseName:nil managedObjectModel:nil delegate:nil];
     [RKObjectManager setSharedManager:objectManager];
+    objectManager.objectStore.cacheStrategy = [RKFetchRequestManagedObjectCache new];
+    objectManager.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;
+    objectManager.syncManager.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;
     
     RKManagedObjectMapping* recordMapping = [RKManagedObjectMapping mappingForEntityWithName:@"Record" inManagedObjectStore:objectManager.objectStore];
     recordMapping.setNilForMissingRelationships = YES; 
@@ -34,9 +37,12 @@
      @"id", @"recordId",
      @"name", @"name",
      nil];
-    recordMapping.syncMode = RKSyncModeManual;
+    recordMapping.syncMode = RKSyncModeTransparent;
     
     [objectManager.mappingProvider registerMapping:recordMapping withRootKeyPath:@"record"];
+    [objectManager.mappingProvider setObjectMapping:recordMapping forResourcePathPattern:@"/records" withFetchRequestBlock:^NSFetchRequest *(NSString *resourcePath) {
+        return [Record fetchRequest];
+    }];
     
     [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodGET];
     [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodPOST];
