@@ -13,7 +13,7 @@
     <td><%= record.name %></td>
     <td><%= link_to 'Show', record %></td>
     <td><%= link_to 'Edit', edit_record_path(record) %></td>
-    <td><%= link_to 'Destroy', record, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', record, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

@@ -80,13 +80,9 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:_record];
         //TTOpenURL(@"tt://records");
     } else {
-        //Record *record = [Record createInContext:[RKObjectManager sharedManager].objectStore.managedObjectContext];
-        
         Record *record = [[Record object] retain];
         record.name = addTextField.text;
         [[Record currentContext] save:&error];
-        //[[[RKObjectManager sharedManager] objectStore] save];
-        //[[RKManagedObjectSyncObserver sharedSyncObserver] shouldPostObject:record error:&error];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRecord" object:record];
     }
 }

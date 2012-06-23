@@ -28,34 +28,25 @@
     [RKObjectManager setSharedManager:objectManager];
     objectManager.objectStore.cacheStrategy = [RKFetchRequestManagedObjectCache new];
     objectManager.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;
-    objectManager.syncManager.requestQueue.showsNetworkActivityIndicatorWhenBusy = YES;
     
     RKManagedObjectMapping* recordMapping = [RKManagedObjectMapping mappingForEntityWithName:@"Record" inManagedObjectStore:objectManager.objectStore];
-    recordMapping.setNilForMissingRelationships = YES; 
     recordMapping.primaryKeyAttribute = @"recordId";
     [recordMapping mapKeyPathsToAttributes:
      @"id", @"recordId",
      @"name", @"name",
      nil];
-    recordMapping.syncMode = RKSyncModeTransparent;
+    recordMapping.syncMode = RKSyncModeManual;
     
-    [objectManager.mappingProvider registerMapping:recordMapping withRootKeyPath:@"record"];
     [objectManager.mappingProvider setObjectMapping:recordMapping forResourcePathPattern:@"/records" withFetchRequestBlock:^NSFetchRequest *(NSString *resourcePath) {
         return [Record fetchRequest];
     }];
+    [objectManager.mappingProvider registerMapping:recordMapping withRootKeyPath:@"record"];
+    [objectManager.mappingProvider registerObjectMapping:recordMapping withRootKeyPath:@"record"];
     
     [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodGET];
     [objectManager.router routeClass:[Record class] toResourcePath:@"/records" forMethod:RKRequestMethodPOST];
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/:recordId" forMethod:RKRequestMethodPUT];
 	[objectManager.router routeClass:[Record class] toResourcePath:@"/records/:recordId" forMethod:RKRequestMethodDELETE];
-    
-    // We don't want zombies on the device, so alert if zombies are enabled
-	if(getenv("NSZombieEnabled")) {
-		NSLog(@"NSZombie Enabled!");
-	}
-    if(getenv("NSAutoreleaseFreedObjectCheckEnabled")) {
-		NSLog(@"NSAutoreleaseFreedObjectCheck Enabled!");
-	}
     
     return YES;
 }

@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-RestKitBackend::Application.config.secret_token = 'd41240681fe2a3805f46dc43db299802c7faec73d022cc90f089019a1a14761c6e95c854569ba94d30eaa29c36903275e16d77d23260925d7b77cfa43af989a9'
+RestKitBackend::Application.config.secret_token = 'f7d5632f0127552522abd81dfadc8a91bbd74abfa0c0a5c6dd92c38507ac480746b174d758247f3c6fca403dc01dcb8e6d689c041f97bcd2f35439feaabd3bcd'

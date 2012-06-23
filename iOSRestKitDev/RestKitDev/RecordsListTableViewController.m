@@ -69,7 +69,8 @@
 }
 
 - (void)syncButtonWasPressed:(id)sender {
-    [[[RKObjectManager sharedManager] syncManager] pullObjectsWithSyncMode:RKSyncModeTransparent andClass:nil];
+    //[[[RKObjectManager sharedManager] syncManager] pullObjectsWithSyncMode:RKSyncModeTransparent andClass:nil];
+    [[[RKObjectManager sharedManager] syncManager] sync];
 }
 
 #pragma mark RKManagedObjectSyncDelegate methods
